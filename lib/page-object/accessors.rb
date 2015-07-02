@@ -1349,6 +1349,10 @@ module PageObject
         return call_block(&block).exists? if block_given?
         platform.send(method, identifier.clone).exists?
       end
+      define_method("#{name}_visible?") do
+        return call_block(&block) if block_given?
+        platform.send(method, identifier.clone).visible?
+      end
     end
 
     #
