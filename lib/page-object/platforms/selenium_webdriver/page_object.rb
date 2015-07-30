@@ -460,6 +460,12 @@ module PageObject
           end
         end
 
+        def div_click_for(identifier)
+          process_selenium_call(identifier, Elements::Div, 'div') do |how, what|
+            @browser.find_element(how, what).click
+          end
+        end
+
         #
         # platform method to return a PageObject::Elements::Div element
         # See PageObject::Accessors#div
