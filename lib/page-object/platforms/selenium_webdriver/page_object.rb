@@ -491,6 +491,12 @@ module PageObject
           end
         end
 
+        def span_click_for(identifier)
+          process_selenium_call(identifier, Elements::Span, 'span') do |how, what|
+            @browser.find_element(how, what).click
+          end
+        end
+
         #
         # platform method to return a PageObject::Elements::Span element
         # See PageObject::Accessors#span

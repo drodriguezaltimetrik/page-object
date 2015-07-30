@@ -579,6 +579,10 @@ module PageObject
         return platform.span_text_for identifier.clone unless block_given?
         self.send("#{name}_element").text
       end
+      define_method("#{name}_click") do
+        return platform.span_click_for identifier.clone unless block_given?
+        self.send("#{name}_element").click
+      end
     end
 
     #

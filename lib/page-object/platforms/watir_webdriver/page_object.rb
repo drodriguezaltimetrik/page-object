@@ -419,6 +419,10 @@ module PageObject
           process_watir_call("div(identifier).text", Elements::Div, identifier, nil, 'div')
         end
 
+        def div_click_for(identifier)
+          process_watir_call("div(identifier).click", Elements::Div, identifier, nil, 'div')
+        end
+
         #
         # platform method to return a PageObject::Elements::Div element
         # See PageObject::Accessors#div
@@ -440,6 +444,10 @@ module PageObject
         #
         def span_text_for(identifier)
           process_watir_call("span(identifier).text", Elements::Span, identifier, nil, 'span')
+        end
+
+        def span_click_for(identifier)
+          process_watir_call("span(identifier).click", Elements::Span, identifier, nil, 'span')
         end
 
         #
