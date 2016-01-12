@@ -25,7 +25,7 @@ module PageObject
         def navigate_to(url)
           @browser.goto url
         end
-        
+
         #
         # platform method to get the current url
         # See PageObject#current_url
@@ -118,7 +118,7 @@ module PageObject
         def execute_script(script, *args)
           @browser.execute_script(script, *args)
         end
-    
+
         #
         # platform method to handle attaching to a running window
         # See PageObject#attach_to_window
@@ -132,7 +132,7 @@ module PageObject
           element = browser.execute_script("return document.activeElement")
           type = element.type.to_sym if element.tag_name.to_sym == :input
           cls = ::PageObject::Elements.element_class_for(element.tag_name, type)
-          cls.new(element, :platform => :watir_webdriver)    
+          cls.new(element, :platform => :watir_webdriver)
         end
 
         #
@@ -144,7 +144,7 @@ module PageObject
           frame << {frame: identifier}
           block.call(frame)
         end
-    
+
         #
         # platform method to switch to an iframe and execute a block
         # See PageObject#in_frame
@@ -154,7 +154,7 @@ module PageObject
           frame << {iframe: identifier}
           block.call(frame)
         end
-    
+
         #
         # platform method to refresh the page
         # See PageObject#refresh
@@ -162,7 +162,7 @@ module PageObject
         def refresh
           @browser.refresh
         end
-    
+
         #
         # platform method to go back to the previous page
         # See PageObject#back
@@ -170,7 +170,7 @@ module PageObject
         def back
           @browser.back
         end
-    
+
         #
         # platform method to go forward to the next page
         # See PageObject#forward
@@ -178,7 +178,7 @@ module PageObject
         def forward
           @browser.forward
         end
-        
+
         #
         # platform method to clear the cookies from the browser
         # See PageObject#clear_cookies
@@ -210,7 +210,7 @@ module PageObject
         def text_field_value_set(identifier, value)
           process_watir_call("text_field(identifier).set(value)", Elements::TextField, identifier, value)
         end
-    
+
         #
         # platform method to retrieve a text field element
         # See PageObject::Accessors#text_field
@@ -320,7 +320,7 @@ module PageObject
         # See PageObject::Accessors#link
         #
         def click_link_for(identifier)
-          call = call_for_watir_element(identifier, "link(identifier)")
+          call = "link(identifier)"
           process_watir_call("#{call}.click if identifier", Elements::Link, identifier)
         end
 
@@ -329,7 +329,7 @@ module PageObject
         # see PageObject::Accessors#link
         #
         def link_for(identifier)
-          call = call_for_watir_element(identifier, "link(identifier)")
+          call = "link(identifier)"
           find_watir_element(call, Elements::Link, identifier)
         end
 
@@ -337,7 +337,7 @@ module PageObject
         # platform method to retrieve an array of link elements
         #
         def links_for(identifier)
-          call = call_for_watir_elements(identifier, "links(identifier)")
+          call = "links(identifier)"
           find_watir_elements(call, Elements::Link, identifier)
         end
 
@@ -470,7 +470,7 @@ module PageObject
         # See PageObject::Accessors#button
         #
         def click_button_for(identifier)
-          call = call_for_watir_element(identifier, "button(identifier)")
+          call = "button(identifier)"
           process_watir_call("#{call}.click", Elements::Button, identifier)
         end
 
@@ -479,7 +479,7 @@ module PageObject
         # See PageObject::Accessors#button
         #
         def button_for(identifier)
-          call = call_for_watir_element(identifier, "button(identifier)")
+          call = "button(identifier)"
           find_watir_element(call, Elements::Button, identifier)
         end
 
@@ -487,7 +487,7 @@ module PageObject
         # platform method to retrieve an array of button elements
         #
         def buttons_for(identifier)
-          call = call_for_watir_elements(identifier, "buttons(identifier)")
+          call = "buttons(identifier)"
           find_watir_elements(call, Elements::Button, identifier)
         end
 
@@ -653,7 +653,7 @@ module PageObject
         def ordered_list_for(identifier)
           find_watir_element("ol(identifier)", Elements::OrderedList, identifier, 'ol')
         end
-        
+
         #
         # platform method to retrieve an array of ordered lists
         #
@@ -668,14 +668,14 @@ module PageObject
         def h1_text_for(identifier)
           process_watir_call("h1(identifier).text", Elements::Heading, identifier, nil, 'h1')
         end
-        
+
         #
         # platform method to retrieve the h1 element
         # See PageObject::Accessors#h1
         #
         def h1_for(identifier)
           find_watir_element("h1(identifier)", Elements::Heading, identifier, 'h1')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h1s
@@ -691,14 +691,14 @@ module PageObject
         def h2_text_for(identifier)
           process_watir_call("h2(identifier).text", Elements::Heading, identifier, nil, 'h2')
         end
-        
+
         #
         # platform method to retrieve the h2 element
         # See PageObject::Accessors#h2
         #
         def h2_for(identifier)
           find_watir_element("h2(identifier)", Elements::Heading, identifier, 'h2')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h2s
@@ -714,14 +714,14 @@ module PageObject
         def h3_text_for(identifier)
           process_watir_call("h3(identifier).text", Elements::Heading, identifier, nil, 'h3')
         end
-        
+
         #
         # platform method to retrieve the h3 element
         # See PageObject::Accessors#h3
         #
         def h3_for(identifier)
           find_watir_element("h3(identifier)", Elements::Heading, identifier, 'h3')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h3s
@@ -737,14 +737,14 @@ module PageObject
         def h4_text_for(identifier)
           process_watir_call("h4(identifier).text", Elements::Heading, identifier, nil, 'h4')
         end
-        
+
         #
         # platform method to retrieve the h4 element
         # See PageObject::Accessors#h4
         #
         def h4_for(identifier)
           find_watir_element("h4(identifier)", Elements::Heading, identifier, 'h4')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h4s
@@ -760,14 +760,14 @@ module PageObject
         def h5_text_for(identifier)
           process_watir_call("h5(identifier).text", Elements::Heading, identifier, nil, 'h5')
         end
-        
+
         #
         # platform method to retrieve the h5 element
         # See PageObject::Accessors#h5
         #
         def h5_for(identifier)
           find_watir_element("h5(identifier)", Elements::Heading, identifier, 'h5')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h5s
@@ -783,14 +783,14 @@ module PageObject
         def h6_text_for(identifier)
           process_watir_call("h6(identifier).text", Elements::Heading, identifier, nil, 'h6')
         end
-        
+
         #
         # platform method to retrieve the h6 element
         # See PageObject::Accessors#h6
         #
         def h6_for(identifier)
           find_watir_element("h6(identifier)", Elements::Heading, identifier, 'h6')
-        end  
+        end
 
         #
         # platform method to retrieve an array of h6s
@@ -806,7 +806,7 @@ module PageObject
         def paragraph_text_for(identifier)
           process_watir_call("p(identifier).text", Elements::Paragraph, identifier, nil, 'p')
         end
-        
+
         #
         # platform method to retrieve the paragraph element
         # See PageObject::Accessors#paragraph
@@ -971,7 +971,7 @@ module PageObject
         def svg_for(identifier)
           find_watir_element("element(identifier)", Elements::Element, identifier)
         end
- 
+
         #
         # platform method to return an array of svg elements
         #
@@ -989,7 +989,7 @@ module PageObject
 
         #
         # platform method to retrieve the b element
-        # See PageObject::Accessors#h1
+        # See PageObject::Accessors#b
         #
         def b_for(identifier)
           find_watir_element("b(identifier)", Elements::Bold, identifier, 'b')
@@ -1001,7 +1001,30 @@ module PageObject
         def bs_for(identifier)
           find_watir_elements("bs(identifier)", Elements::Bold, identifier, 'b')
         end
- 
+
+        #
+        # platform method to retrieve the text for a i
+        # See PageObject::Accessors#i
+        #
+        def i_text_for(identifier)
+          process_watir_call("i(identifier).text", Elements::Italic, identifier, nil, 'i')
+        end
+
+        #
+        # platform method to retrieve the i element
+        # See PageObject::Accessors#i
+        #
+        def i_for(identifier)
+          find_watir_element("i(identifier)", Elements::Italic, identifier, 'i')
+        end
+
+        #
+        # platform method to retrieve an array of is
+        #
+        def is_for(identifier)
+          find_watir_elements("is(identifier)", Elements::Italic, identifier, 'i')
+        end
+
         private
 
         def find_watir_elements(the_call, type, identifier, tag_name=nil)
@@ -1072,23 +1095,7 @@ module PageObject
         end
 
         def switch_to_default_content(frame_identifiers)
-          @browser.wd.switch_to.default_content unless frame_identifiers.nil?          
-        end
-
-        def css_element
-          "element(identifier)"
-        end
-
-        def css_elements
-          "elements(identifier)"
-        end
-
-        def call_for_watir_element(identifier, call)
-          identifier[:css] ? "#{css_element}" : call
-        end
-
-        def call_for_watir_elements(identifier, call)
-          identifier[:css] ? "#{css_elements}" : call          
+          @browser.wd.switch_to.default_content unless frame_identifiers.nil?
         end
 
         def switch_to_frame(frame_identifiers)
@@ -1098,7 +1105,7 @@ module PageObject
               value = frame_id.values.first
               @browser.wd.switch_to.frame(value)
             end
-          end          
+          end
         end
       end
     end
