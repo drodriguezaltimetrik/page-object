@@ -101,7 +101,7 @@ module PageObject
       return warn "No page_url method for #{page_object}" unless on_page(page_object).respond_to?(:page_url_value)
       page_url = on_page(page_object).page_url_value.gsub(/\w+:\w+@/, '').sub(/\/$/, '')
 
-      strict ? page_url.eql?(@browser.url.sub(/\/$/, '')) : page_url.include?(@browser.url.sub(/\/$/, ''))
+      strict ? page_url.eql?(@browser.url.sub(/\/$/, '')) : @browser.url.sub(/\/$/, '').include?(page_url)
     end
 
     private
