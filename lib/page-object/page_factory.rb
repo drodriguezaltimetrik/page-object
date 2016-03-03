@@ -97,6 +97,13 @@ module PageObject
     # Support 'if' for readability of usage
     alias_method :if, :if_page
 
+    def compare_url?(page_object, strict = false)
+      return warn "No page_url method for #{page_object}" unless on_page(page_object).respond_to?(:page_url_value)
+      page_url = on_page(page_object).page_url_value.gsub(/\w+:\w+@/, '').sub(/\/$/, '')
+
+      strict ? page_url.eql?(@browser.url.sub(/\/$/, '')) : page_url.include?(@browser.url.sub(/\/$/, ''))
+    end
+
     private
     
     def class_from_string(str)
