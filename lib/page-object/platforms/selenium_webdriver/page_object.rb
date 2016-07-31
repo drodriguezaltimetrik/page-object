@@ -12,6 +12,14 @@ module PageObject
       # and use the methods dynamically added from the PageObject::Accessors module.
       #
       class PageObject
+
+        PLATFORM_NAME = :selenium_webdriver
+
+        def self.define_widget_accessors(widget_tag, widget_class, base_element_tag)
+          define_widget_singular_accessor(base_element_tag, widget_class, widget_tag)
+          define_widget_multiple_accessor(base_element_tag, widget_class, widget_tag)
+        end
+
         def initialize(browser)
           @browser = browser
         end
@@ -139,7 +147,7 @@ module PageObject
           element = @browser.execute_script("return document.activeElement")
           type = element.attribute(:type).to_s.downcase if element.tag_name.to_sym == :input
           cls = ::PageObject::Elements.element_class_for(element.tag_name, type)
-          cls.new(element, :platform => :selenium_webdriver)
+          cls.new(element, :platform => self.class::PLATFORM_NAME)
         end
 
         #
@@ -1038,7 +1046,7 @@ module PageObject
         # See PageObject::Accessors#page_sections
         #
         def pages_for(identifier, page_class)
-          SectionCollection.new(find_selenium_pages(identifier, page_class))
+          SectionCollection[*find_selenium_pages(identifier, page_class)]
         end
 
        #
@@ -1132,7 +1140,7 @@ module PageObject
             return build_null_object(identifier, type, tag, other)
           end
           @browser.switch_to.default_content unless frame_identifiers.nil?
-          type.new(element, :platform => :selenium_webdriver)
+          type.new(element, :platform => self.class::PLATFORM_NAME)
         end
 
         def find_selenium_elements(identifier, type, tag, other=nil)
@@ -1146,7 +1154,7 @@ module PageObject
             elements = eles.find_all {|ele| matches_selector?(ele, regexp[0], regexp[1])}
           end
           @browser.switch_to.default_content unless frame_identifiers.nil?
-          elements.map { |element| type.new(element, :platform => :selenium_webdriver) }
+          elements.map { |element| type.new(element, :platform => self.class::PLATFORM_NAME) }
         end
 
         def find_selenium_pages(identifier, page_class)
@@ -1190,7 +1198,7 @@ module PageObject
           null_element.tag = tag
           null_element.other = other
           null_element.platform = self
-          Elements::Element.new(null_element, :platform => :selenium_webdriver)
+          Elements::Element.new(null_element, :platform => self.class::PLATFORM_NAME)
         end
 
         def delete_regexp(identifier)
@@ -1268,6 +1276,19 @@ module PageObject
             end
           end
         end
+
+        def self.define_widget_multiple_accessor(base_element_tag, widget_class, widget_tag)
+          send(:define_method, "#{widget_tag}s_for") do |identifier|
+            find_selenium_elements(identifier, widget_class, base_element_tag)
+          end
+        end
+
+        def self.define_widget_singular_accessor(base_element_tag, widget_class, widget_tag)
+          send(:define_method, "#{widget_tag}_for") do |identifier|
+            find_selenium_element(identifier, widget_class, base_element_tag)
+          end
+        end
+
       end
     end
   end
