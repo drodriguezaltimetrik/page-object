@@ -196,7 +196,7 @@ module PageObject
     # @param [Hash] identifier how we find a text field.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :label => Watir and Selenium
@@ -232,7 +232,7 @@ module PageObject
     # @param [Hash] identifier how we find a hidden field.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -264,7 +264,7 @@ module PageObject
     # @param [Hash] identifier how we find a text area.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -300,7 +300,7 @@ module PageObject
     # @param [Hash] identifier how we find a select list.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -376,7 +376,7 @@ module PageObject
     # @param [Hash] identifier how we find a checkbox.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -416,7 +416,7 @@ module PageObject
     # @param [Hash] identifier how we find a radio button.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -599,7 +599,7 @@ module PageObject
     # @param [Hash] identifier how we find a table.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -633,7 +633,7 @@ module PageObject
     #   * :name => Watir and Selenium
     #   * :text => Watir and Selenium
     #   * :xpath => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     # @param optional block to be invoked when element method is called
     #
     def cell(name, identifier={:index => 0}, &block)
@@ -676,19 +676,20 @@ module PageObject
     end
 
     #
-    # adds two methods - one to retrieve the image element, and another to
-    # check the image's existence.
+    # adds three methods - one to retrieve the image element, another to
+    # check the load status of the image, and another to check the
+    # image's existence.
     #
     # @example
     #   image(:logo, :id => 'logo')
-    #   # will generate 'logo_element' and 'logo?' methods
+    #   # will generate 'logo_element', 'logo_loaded?', and 'logo?' methods
     #
     # @param [Symbol] the name used for the generated methods
     # @param [Hash] identifier how we find an image.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :alt => Watir and Selenium
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -698,6 +699,10 @@ module PageObject
     #
     def image(name, identifier={:index => 0}, &block)
       standard_methods(name, identifier, 'image_for', &block)
+      define_method("#{name}_loaded?") do
+        return platform.image_loaded_for identifier.clone unless block_given?
+        self.send("#{name}_element").loaded?
+      end
     end
     alias_method :img, :image
 
@@ -714,7 +719,7 @@ module PageObject
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :action => Watir and Selenium
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :xpath => Watir and Selenium
@@ -767,7 +772,7 @@ module PageObject
     # @param [Hash] identifier how we find an unordered list.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -796,7 +801,7 @@ module PageObject
     # @param [Hash] identifier how we find an ordered list.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1014,7 +1019,7 @@ module PageObject
     # @param [Hash] identifier how we find a file_field.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1223,7 +1228,7 @@ module PageObject
     # @param [Hash] identifier how we find a svg.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1248,7 +1253,7 @@ module PageObject
     # @param [Hash] identifier how we find an element.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1256,21 +1261,25 @@ module PageObject
     # @param optional block to be invoked when element method is called
     #
     def element(name, tag=:element, identifier={ :index => 0 }, &block)
-      # default tag to :element
       #
-      # element 'button', css: 'some css'
-      #
-      # is the same as
-      #
-      # element 'button', :element, css: 'some css'
+      # sets tag as element if not defined
       #
       if tag.is_a?(Hash)
         identifier = tag
         tag        = :element
       end
 
+      standard_methods(name, identifier, 'element_for', &block)
+
       define_method("#{name}") do
-        self.send("#{name}_element").text
+        element = self.send("#{name}_element")
+
+        %w(Button TextField Radio Hidden CheckBox FileField).each do |klass|
+          next unless element.element.class.to_s  == "Watir::#{klass}"
+          self.class.send(klass.gsub(/(.)([A-Z])/,'\1_\2').downcase, name, identifier, &block)
+          return self.send name
+        end
+        element.text
       end
       define_method("#{name}_element") do
         return call_block(&block) if block_given?
@@ -1278,6 +1287,24 @@ module PageObject
       end
       define_method("#{name}?") do
         self.send("#{name}_element").exists?
+      end
+      define_method("#{name}=") do |value|
+        element = self.send("#{name}_element")
+
+        klass = case element.element
+                when Watir::TextField
+                  'text_field'
+                when Watir::TextArea
+                  'text_area'
+                when Watir::Select
+                  'select_list'
+                when Watir::FileField
+                  'file_field'
+                else
+                  raise "Can not set a #{element.element} element with #="
+                end
+        self.class.send(klass, name, identifier, &block)
+        self.send("#{name}=", value)
       end
     end
 
@@ -1294,7 +1321,7 @@ module PageObject
     # @param [Hash] identifier how we find an element.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1302,13 +1329,8 @@ module PageObject
     # @param optional block to be invoked when element method is called
     #
     def elements(name, tag=:element, identifier={:index => 0}, &block)
-      # default tag to :element
       #
-      # elements 'button', css: 'some css'
-      #
-      # is the same as
-      #
-      # elements 'button', :element, css: 'some css'
+      # sets tag as element if not defined
       #
       if tag.is_a?(Hash)
         identifier = tag
@@ -1333,7 +1355,7 @@ module PageObject
     # @param [Hash] identifier how we find an element.  You can use multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1357,7 +1379,7 @@ module PageObject
     # @param [Hash] identifier how we find an element.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium
@@ -1384,7 +1406,7 @@ module PageObject
     # @param [Hash] identifier how we find an element.  You can use a multiple parameters
     #   by combining of any of the following except xpath.  The valid keys are:
     #   * :class => Watir and Selenium
-    #   * :css => Selenium only
+    #   * :css => Watir and Selenium
     #   * :id => Watir and Selenium
     #   * :index => Watir and Selenium
     #   * :name => Watir and Selenium

@@ -75,7 +75,7 @@ describe PageObject do
     end
   end
 
-  context "when created with a watir-webdriver browser" do
+  context "when created with a watir browser" do
     it "should include the WatirPageObject module" do
       expect(watir_page_object.platform).to be_kind_of PageObject::Platforms::WatirWebDriver::PageObject
     end
@@ -100,8 +100,8 @@ describe PageObject do
   context "when created with an object we do not understand" do
     it "should throw an error" do
       expect {
-        TestPageObject.new("blah")
-      }.to raise_error
+        PageObjectTestPageObject.new("blah")
+      }.to raise_error 'Unable to pick a platform for the provided browser or element: "blah".'
     end
   end
 

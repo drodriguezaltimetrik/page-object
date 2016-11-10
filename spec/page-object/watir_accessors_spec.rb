@@ -201,7 +201,7 @@ describe PageObject::Accessors do
 
     it "should raise error when it does not have expected title" do
       expect(watir_browser).to receive(:title).once.and_return("Not Expected")
-      expect { watir_page_object.has_expected_title? }.to raise_error
+      expect { watir_page_object.has_expected_title? }.to raise_error "Expected title \'Expected Title\' instead of \'Not Expected\'"
     end
   end
 
@@ -243,7 +243,7 @@ describe PageObject::Accessors do
 
     it "should default elements tag to element" do
       mock_driver_for :elements
-      expect(watir_browser).to receive(:map).and_return([])
+      expect(watir_browser).to receive(:map).and_return([], [])
       page.button2_elements.to_a
     end
   end
@@ -783,6 +783,7 @@ describe PageObject::Accessors do
     context "when called on a page object" do
       it "should generate accessor methods" do
         expect(watir_page_object).to respond_to(:logo_element)
+        expect(watir_page_object).to respond_to(:logo_loaded?)
       end
 
       it "should call a block on the element method when present" do
